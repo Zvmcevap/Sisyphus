@@ -17,25 +17,28 @@
 <body>
 <div class="login-page">
   <div class="container-sm p-3 bc-black">
+      <h1 id="title-card">SISYPHUS</h1>
     <form class="register-form">
-        <div class="form-group" style="display: none;">
+        <h3>Register</h3>
+        <div class="form-group">
 		    <label for="username">Username</label>
             <input class="form-control" id="username" type="text" placeholder="Username"/>
         </div>
-        <div class="form-group" style="display: none;">
+        <div class="form-group">
 		    <label for="password">Password</label>
             <input class="form-control" id="password" type="password" placeholder="Password"/>
         </div>
-        <div class="form-group" style="display: none;">
+        <div class="form-group">
 		    <label for="email">Email</label>
             <input class="form-control" id="email" type="email" placeholder="email address"/>
         </div>
-        <button>create</button>
-        <div class="form-group" style="display: none">
-            <p class="message">Already registered? <button>Sign In</button></p>
+        <button type="button" class="btn btn-primary btn-block mt-3 mb-5">Register</button>
+        <div class="form-group">
+            <p class="message">Already registered? <a href="#">Sign In</a></p>
         </div>
     </form>
-    <form class="login-form">
+    <form class="login-form" style="display: none">
+        <h3>Login</h3>
         <div class="form-group">
 		    <label for="userlogin">Username</label>
             <input class="form-control" id="userlogin" type="text" placeholder="username"/>
@@ -44,9 +47,9 @@
 		    <label for="passlogin">Password</label>
             <input class="form-control" id="passlogin" type="password" placeholder="password"/>
         </div>
-      <button>login</button>
+      <button type="button" class="btn btn-primary btn-block mt-3 mb-5">login</button>
         <div class="form-group">
-            <p class="message">Not registered? <button>Create an account</button></p>
+            <p class="message">Not registered? <a href="#">Create an account</a></p>
         </div>
     </form>
   </div>

@@ -18,3 +18,8 @@ body {
     background-size: cover;
     background-blend-mode: initial;
 }
+
+#title-card {
+text-align: center;
+font-family: "Times New Roman", Times, serif;
+}

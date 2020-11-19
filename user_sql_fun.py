@@ -2,6 +2,12 @@
 import sqlite3
 from user_class import User
 
+
+conn = sqlite3.connect('database.db')
+cursor = conn.cursor()
+
+
+
 def insert_user(conn, cursor, user):
     with conn:
         cursor.execute('INSERT INTO users(username, password, email) VALUES (:username, :password, :email)',
@@ -39,11 +45,16 @@ def list_users(cursor):
 
 
 def select_user(userlist, user):
-    for u in userlist:
-        if (u.username == user.username or u.email == user.email) and u.password == user.password:
-            print("Login successful")
-            return u
+    if user.username != "guest":
+        for u in userlist:
+            if (u.username == user.username or u.email == user.email) and u.password == user.password:
+                user.user_id = u.user_id
+                user.username = u.username
+                user.email = u.email
+                print("Login successful")
+                return user
     print("Incorrect Login Data")
+    return user
 
 
 def delete_user(conn, cursor, user):

@@ -1,23 +1,22 @@
 $(document).ready(function(){
-
 $(".message a").click(function(){
 $("form").toggle(1000);
 });
 
 
 $("#button_login").click(function(){
-    var username = $("#userlogin").val();
-    var password = $("#passlogin").val();
 
     $.ajax({
         url: '/login',
         data: $('#login_form').serialize(),
         type: 'POST',
         success: function(response) {
-            console.log(response);
+            document.write(response);
             },
         error: function(error){
-            console.log(error)
+            if (!$('#inc').length) {
+            $("#fg-pass").append("<p id='inc' style='color: red'> Incorrect Login info </p>");
+            }
             }
         });
     });

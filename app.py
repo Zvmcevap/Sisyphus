@@ -17,14 +17,14 @@ app.secret_key = secrets.token_urlsafe(32)
 SESSION_TYPE = 'redis'
 
 
-@app.route('/')
+@app.route('/', methods=["GET"])
 def index():
     if "user_id" not in session:
         print("Im heere")
         return redirect(url_for("login"))
     else:
         print("Or theeere")
-        return make_response(render_template("index.html"), 200, {"Content-Type": "text/html"})
+        return render_template("index.html")
 
 
 @app.route('/login', methods=["POST", "GET"])
@@ -44,13 +44,11 @@ def login():
         print(user_1.user_id)
         if not user_1.user_id:
             print("User_id == None")
-            return make_response("Idk, wadaflask", 409)
+            return make_response("Idk, wadaflask", 410)
 
         else:
             print("User_id != None")
             return redirect(url_for("index"))
-
-
 
 
 if __name__ == '__main__':

@@ -1,5 +1,6 @@
-from flask import Flask, render_template, request, make_response, redirect, url_for, json
+from flask import Flask, render_template, request, make_response, redirect, url_for, session
 import sqlite3
+import secrets
 from user_class import User
 from user_sql_fun import *
 
@@ -9,17 +10,21 @@ cursor = conn.cursor()
 
 # Create a list of users
 user_list = list_users(cursor)
+user_1 = User()
 
 app = Flask(__name__)
-user_a = User()
+app.secret_key = secrets.token_urlsafe(32)
+SESSION_TYPE = 'redis'
+
 
 @app.route('/')
-def first_page():
-    print(user_a.username)
-    if user_a.username == "guest":
+def index():
+    if "user_id" not in session:
+        print("Im heere")
         return redirect(url_for("login"))
     else:
-        return render_template("index.html")
+        print("Or theeere")
+        return make_response(render_template("index.html"), 200, {"Content-Type": "text/html"})
 
 
 @app.route('/login', methods=["POST", "GET"])
@@ -28,18 +33,24 @@ def login():
         return render_template("login.html")
 
     if request.method == "POST":
-        username = request.form['username']
-        password = request.form['password']
-        user_a = User(username, password, username)
-        print("User first: ", user_a.username, user_a.password, user_a.email)
-        user_a = select_user(user_list, user_a)
-        print("User second", user_a.username, user_a.password, user_a.email)
+        session["username"] = request.form['username']
+        session["password"] = request.form['password']
+        session["user_id"] = None
 
-        if user_a.username == "guest":
-            return make_response("User does not exist", 409)
+        user_1 = User(session["username"], session["password"], session["username"])
+        user_1 = select_user(user_list, user_1)
+
+        session["user_id"] = user_1.user_id
+        print(user_1.user_id)
+        if not user_1.user_id:
+            print("User_id == None")
+            return make_response("Idk, wadaflask", 409)
 
         else:
-            return redirect("/")
+            print("User_id != None")
+            return redirect(url_for("index"))
+
+
 
 
 if __name__ == '__main__':

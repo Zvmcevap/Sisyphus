@@ -1,4 +1,4 @@
-#!/home/beno/Desktop/Sisyphus_proto/venv/bin/python3
+#!/home/beno/Desktop/Sisyphus/venv/bin/python3
 # -*- coding: utf-8 -*-
 import re
 import sys

@@ -1,25 +1,28 @@
-$(document).ready(function(){
-$(".message a").click(function(){
-$("form").toggle(1000);
-});
+$(document).ready(function () {
+  let isRegister = true;
 
+  $(".message a").click(function () {
+    $("#emaildiv").toggle(1000);
+    let logRegLabel = isRegister ? "Login" : "Register";
+    $("#login_text").text(`${logRegLabel}`);
+    $("#button_login").val(`${logRegLabel}`);
+    $("#email").prop("required", !isRegister);
+    isRegister = !isRegister;
+  });
 
-$("#button_login").click(function(){
-
+  $("form").on("submit", function (e) {
+    e.preventDefault();
+    console.log("Submit");
     $.ajax({
-        url: '/login',
-        data: $('#login_form').serialize(),
-        type: 'POST',
-        success: function(response) {
-            document.write(response);
-            },
-        error: function(error){
-            if (!$('#inc').length) {
-            $("#fg-pass").append("<p id='inc' style='color: red'> Incorrect Login info </p>");
-            }
-            }
-        });
+      data: $("form").serialize(),
+      type: "POST",
+      url: isRegister ? "/register" : "/login",
+    }).done(function (data) {
+      if (data.error) {
+        $("#error").html("<p>User data incorrect</p>");
+      } else {
+        $("#successAlert").text(data.username).show();
+      }
     });
-return username, password;
-
+  });
 });

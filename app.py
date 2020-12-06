@@ -1,54 +1,59 @@
-from flask import Flask, render_template, request, make_response, redirect, url_for, session
+from flask import Flask, redirect, url_for, render_template, request, jsonify
 import sqlite3
 import secrets
-from user_class import User
-from user_sql_fun import *
-
-# Accessing the Database
-conn = sqlite3.connect('database.db')
-cursor = conn.cursor()
-
-# Create a list of users
-user_list = list_users(cursor)
-user_1 = User()
-
-app = Flask(__name__)
-app.secret_key = secrets.token_urlsafe(32)
-SESSION_TYPE = 'redis'
+import user_class
+import json
 
 
-@app.route('/', methods=["GET"])
-def index():
-    if "user_id" not in session:
-        print("Im heere")
-        return redirect(url_for("login"))
-    else:
-        print("Or theeere")
-        return render_template("index.html")
+app=Flask(__name__)
+user = user_class.User()
+
+def make_userList():
+    conn = sqlite3.connect('database.db')
+    conn.row_factory = sqlite3.Row
+    with conn:
+        userList = []
+        cursor = conn.cursor()
+        cursor.execute('''SELECT * FROM users''')
+        users = cursor.fetchall()
+        for u in users:
+            user = user_class.User(u["user_id"], u["username"], u["password"], u["email"])
+            user.check_unique()
+            userList.append(user)
+        return userList
 
 
-@app.route('/login', methods=["POST", "GET"])
-def login():
-    if request.method == "GET":
-        return render_template("login.html")
 
-    if request.method == "POST":
-        session["username"] = request.form['username']
-        session["password"] = request.form['password']
-        session["user_id"] = None
-
-        user_1 = User(session["username"], session["password"], session["username"])
-        user_1 = select_user(user_list, user_1)
-
-        session["user_id"] = user_1.user_id
-        print(user_1.user_id)
-        if not user_1.user_id:
-            print("User_id == None")
-            return make_response("Idk, wadaflask", 410)
-
+@app.route('/',methods=['GET','POST'])
+def home():
+        if user.user_id:
+            print("BOOM")
+            return render_template('index.html')
         else:
-            print("User_id != None")
-            return redirect(url_for("index"))
+            return redirect(url_for('login'))
+
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        user.username = request.form["username"]
+        user.email = request.form["username"]
+        user.password = request.form["password"]
+        user.check_unique()
+
+        if user.user_id:
+            return redirect(url_for("home"))
+        else:
+            return jsonify({"error": "Username or Password incorrect"})
+
+        return jsonify({"username" : user.username, "password": user.password})
+
+
+
+    else:
+        return render_template('login.html')
+
+    
 
 
 if __name__ == '__main__':

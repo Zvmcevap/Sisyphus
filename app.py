@@ -27,7 +27,7 @@ def make_userList():
 @app.route('/',methods=['GET','POST'])
 def home():
         if user.user_id:
-            print("BOOM")
+            print("BOOOM")
             return render_template('index.html')
         else:
             return redirect(url_for('login'))

@@ -70,13 +70,13 @@ $(document).ready(function () {
             type: "POST",
             url: isLogin ? "/login" : "/register",
 
-            error: function (response) {
+            error: function () {
               console.log("Le fail");
               $(".alert").show();
               $("#button_login").removeClass("mt-5");
             },
             success: function (response) {
-              console.log(response);
+              window.location = response;
             },
           });
         }

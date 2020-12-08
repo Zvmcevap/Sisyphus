@@ -28,7 +28,7 @@ def make_userList():
 def home():
         if user.user_id:
             print("BOOOM")
-            return render_template('index.html')
+            return render_template('index.html', user=user)
         else:
             return redirect(url_for('login'))
 
@@ -40,17 +40,32 @@ def login():
         user.username = request.form["username"]
         user.email = request.form["username"]
         user.password = request.form["password"]
-        user.check_unique()
+        user.check_validity()
         print(user.user_id)
 
         if user.user_id:
-            return redirect(url_for("home"))
+            return url_for("home")
         else:
             return 'Invalid user information', 400
 
     else:
         return render_template('login.html', isLogin=True)
 
+@app.route('/register', methods=['POST', 'GET'])
+def register():
+    if request.method == 'POST':
+        user.username = request.form["username"]
+        user.email = request.form["email"]
+        user.password = request.form["password"]
+        if user.check_unique():
+            user.insert_into_db()
+            user.check_validity()
+            return url_for("home")
+        else:
+            return "Username or email taken", 400
+
+    else:
+        render_template('login.html', isLogin=False)
     
 
 

@@ -36,6 +36,7 @@ def home():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
+        print(request.form)
         user.username = request.form["username"]
         user.email = request.form["username"]
         user.password = request.form["password"]

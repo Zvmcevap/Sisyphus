@@ -17,4 +17,4 @@ class User():
             user_id = cursor.fetchone()
             if user_id:
                 user_id = dict(user_id)
-                self.user_id = user_id["user_id"]
+            self.user_id = user_id

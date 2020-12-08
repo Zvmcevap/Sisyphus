@@ -43,7 +43,6 @@ $(document).ready(function () {
             type: "POST",
             url: isLogin ? "/login" : "/register",
           }).done(function (data) {
-            console.log(data);
             if (data.error) {
               console.log(data.error);
             } else {

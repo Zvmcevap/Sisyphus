@@ -40,18 +40,15 @@ def login():
         user.email = request.form["username"]
         user.password = request.form["password"]
         user.check_unique()
+        print(user.user_id)
 
         if user.user_id:
             return redirect(url_for("home"))
         else:
-            return jsonify({"error": "Username or Password incorrect"})
-
-        return jsonify({"username" : user.username, "password": user.password})
-
-
+            return 'Username incorrect'
 
     else:
-        return render_template('login.html')
+        return render_template('login.html', isLogin=True)
 
     
 

@@ -1,70 +1,73 @@
-<!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/html">
-  <head>
-    <meta charset="UTF-8" />
-    <title>Sisyphus</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-
-    <!-- Importing stylesheets and bundles and whatnot -->
-    <script src="../static/js/jquery-3.5.1.min.js"></script>
-    <link rel="stylesheet" href="../static/css/bootstrap.min.css" />
-    <script src="../static/js/bootstrap.bundle.min.js"></script>
-    <link rel="stylesheet" href="../static/css/login.css" />
-  </head>
-
-  <body>
-    <div class="login-page">
-      <div class="container-sm p-3 bc-black">
-        <h1 id="title-card">SISYPHUS</h1>
-        <form class="login_form" id="login_form">
-          <h3 id="login_text">Register</h3>
-          <div class="form-group">
-            <label id="username_label" for="username">Register</label>
-            <input
-              class="form-control"
-              id="username"
-              type="text"
-              placeholder="username"
-              name="username"
-              required
-            />
-          </div>
-          <div class="form-group" id="emaildiv">
-            <label for="email">Email</label>
-            <input
-              class="form-control"
-              id="email"
-              type="text"
-              placeholder="username"
-              name="email"
-              required
-            />
-          </div>
-          <div class="form-group" id="fg-pass">
-            <label for="password">Password</label>
-            <input
-              class="form-control"
-              id="password"
-              type="password"
-              placeholder="password"
-              name="password"
-              required
-            />
-          </div>
-          <input
-            id="button_login"
-            type="submit"
-            class="btn btn-primary btn-block mt-5 mb-5"
-            value="Register"
-          />
-          <div class="form-group">
-            <p class="message">
-              Not registered? <a href="#">Create an account</a>
-            </p>
-          </div>
-        </form>
+{% extends 'base.html' %} {% block body %}
+<div class="login-page">
+  <div class="container-sm p-3 bc-black">
+    <h1 id="title-card">SISYPHUS</h1>
+    <form class="login_form needs-validation" id="login_form" novalidate>
+      <h3 id="login_text">Register</h3>
+      <div class="form-group">
+        <label id="username_label" for="username">Username</label>
+        <input
+          class="form-control"
+          id="username"
+          type="text"
+          placeholder="username"
+          name="username"
+          required
+        />
+        <div class="invalid-feedback" id="user-invalid-feedback">
+          Please enter a Username
+        </div>
+        <div class="valid-feedback">Good job...</div>
       </div>
-    </div>
-    <script src="../static/js/login.js"></script>
-  </body>
-</html>
+      <div class="form-group" id="emaildiv">
+        <label for="email">Email</label>
+        <input
+          class="form-control"
+          id="email"
+          type="text"
+          placeholder="username"
+          name="email"
+          required
+        />
+        <div class="valid-feedback">Bravo...</div>
+        <div class="invalid-feedback">
+          Please enter a VALID email (By valid email I mean, any letter, number
+          or symbol will do)
+        </div>
+      </div>
+      <div class="form-group" id="fg-pass">
+        <label for="password">Password</label>
+        <input
+          class="form-control"
+          id="password"
+          type="password"
+          placeholder="password"
+          name="password"
+          required
+        />
+        <div class="valid-feedback">
+          Just make sure its the password you always use...
+        </div>
+        <div class="invalid-feedback" id="pass-invalid-feedback">
+          Please enter the same password you use most everywhere else. All of
+          our data is safely encoded with our unbreakable Benigma (tm)
+          proprietary software.
+        </div>
+      </div>
+      <input
+        id="button_login"
+        type="submit"
+        class="btn btn-primary btn-block mt-5 mb-5"
+        value="Register"
+      />
+      <div class="form-group">
+        <p class="message">Not registered? <a href="#">Create an account</a></p>
+      </div>
+    </form>
+  </div>
+</div>
+<script>
+  let isLogin = "{{ isLogin }}";
+</script>
+<script src="../static/js/login.js"></script>
+{% endblock %}

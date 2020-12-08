@@ -25,7 +25,7 @@
           class="form-control"
           id="email"
           type="text"
-          placeholder="username"
+          placeholder="email"
           name="email"
           required
         />
@@ -54,14 +54,22 @@
           proprietary software.
         </div>
       </div>
+      <div class="alert alert-danger alert-dissmisable" style="display: none">
+        <button type="button" class="close">&times;</button>
+        <strong>Username or Password</strong> incorrect!<br />Would you rather
+        <a href="#" class="alert-link switch">create an account?</a>.
+      </div>
       <input
         id="button_login"
         type="submit"
         class="btn btn-primary btn-block mt-5 mb-5"
         value="Register"
       />
+
       <div class="form-group">
-        <p class="message">Not registered? <a href="#">Create an account</a></p>
+        <p class="message">
+          Not registered? <a href="#" class="switch">Create an account</a>
+        </p>
       </div>
     </form>
   </div>

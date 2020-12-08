@@ -1,25 +1,25 @@
 .container-sm {
-    max-width: 400px;
-    background: url("../images/sisybackground3.jpeg");
-    background-color: grey;
-    background-position: center;
-    background-size: cover;
-    background-repeat: no-repeat;
-    margin-top: 50px;
-    border: 2px groove #cccccc;
-    border-radius: 25px;
+  max-width: 500px;
+  background: url("../images/sisybackground3.jpeg");
+  background-color: grey;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  margin-top: 50px;
+  border: 2px groove #cccccc;
+  border-radius: 25px;
 }
 
 body {
-    background: url("../images/sisybackground2.jpeg");
-    background-color: grey;
-    background-position: right;
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-blend-mode: initial;
+  background: url("../images/sisybackground2.jpeg");
+  background-color: grey;
+  background-position: right;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-blend-mode: initial;
 }
 
 #title-card {
-text-align: center;
-font-family: "Times New Roman", Times, serif;
+  text-align: center;
+  font-family: "Times New Roman", Times, serif;
 }

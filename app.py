@@ -1,4 +1,4 @@
-from flask import Flask, redirect, url_for, render_template, request, jsonify
+from flask import Flask, redirect, url_for, render_template, request, jsonify, make_response
 import sqlite3
 import secrets
 import user_class
@@ -46,7 +46,7 @@ def login():
         if user.user_id:
             return redirect(url_for("home"))
         else:
-            return 'Username incorrect'
+            return 'Invalid user information', 400
 
     else:
         return render_template('login.html', isLogin=True)

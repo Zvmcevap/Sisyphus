@@ -1,5 +1,8 @@
 {% extends 'base.html' %} {% block body %}
-<h1>
-  {{ user.user_id }} {{ user.username }} {{ user.email }} {{ user.password }}
-</h1>
+<div class="jumbotron">
+  <h1>
+    {{ user.user_id }} {{ user.username }} {{ user.email }} {{ user.password }}
+  </h1>
+</div>
+
 {% endblock %}

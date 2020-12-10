@@ -10,15 +10,6 @@
   border-radius: 25px;
 }
 
-body {
-  background: url("../images/sisybackground2.jpeg");
-  background-color: grey;
-  background-position: right;
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-blend-mode: initial;
-}
-
 #title-card {
   text-align: center;
   font-family: "Times New Roman", Times, serif;

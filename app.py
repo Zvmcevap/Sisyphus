@@ -62,7 +62,7 @@ def register():
             user.check_validity()
             return url_for("home")
         else:
-            return "Username or email taken", 400
+            return "Username or email taken", 403
 
     else:
         render_template('login.html', isLogin=False)

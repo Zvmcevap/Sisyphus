@@ -53,7 +53,7 @@
           <a class="nav-link" href="/about">About</a>
         </li>
       </ul>
-      {% if not user %}
+      {% if not "user_id" in session %}
       <ul class="navbar-nav navbar-right">
         <li class="nav-item">
           <a class="nav-link" href="/register"

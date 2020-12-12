@@ -3,7 +3,8 @@
   margin-bottom: 50px;
 }
 
-.jumbotron {
+.jumbotron,
+.alert {
   background: #cdc9c3;
 }
 

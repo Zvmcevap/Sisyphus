@@ -1,58 +1,53 @@
-from flask import Flask, redirect, url_for, render_template, request, jsonify, make_response
+from flask import Flask, redirect, url_for, render_template, request, jsonify, make_response, session
 import sqlite3
 import secrets
 import user_class
 import json
 
 
-app=Flask(__name__)
-user = user_class.User()
-
-def make_userList():
-    conn = sqlite3.connect('database.db')
-    conn.row_factory = sqlite3.Row
-    with conn:
-        userList = []
-        cursor = conn.cursor()
-        cursor.execute('''SELECT * FROM users''')
-        users = cursor.fetchall()
-        for u in users:
-            user = user_class.User(u["user_id"], u["username"], u["password"], u["email"])
-            user.check_unique()
-            userList.append(user)
-        return userList
+app = Flask(__name__)
+app.secret_key = secrets.token_urlsafe(32)
 
 
-
-@app.route('/',methods=['GET','POST'])
+@app.route('/')
 def home():
-        if user.user_id:
-            print("BOOOM")
-            return render_template('index.html', user=user)
-        else:
-            return redirect(url_for('login'))
+    if "user_id" in session:
+        user = user_class.User(user_id=session["user_id"])
+        user.get_user_by_id()
+        return redirect(url_for("logged_home"))
+    else:
+        return render_template('index.html')
+
+
+@app.route('/user/<string:name>')
+def logged_home(name):
+    return render_template('index.html')
 
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    user = user_class.User()
     if request.method == 'POST':
-        print(request.form)
         user.username = request.form["username"]
         user.email = request.form["username"]
         user.password = request.form["password"]
         user.check_validity()
-        print(user.user_id)
+        user.get_user_by_id()
 
         if user.user_id:
-            return url_for("home")
+            session['user_id'] = user.user_id
+
+            return url_for("logged_home", name=user.username)
         else:
             return 'Invalid user information', 400
 
     else:
         return render_template('login.html', isLogin=True)
 
+
 @app.route('/register', methods=['POST', 'GET'])
 def register():
+    user = user_class.User()
     if request.method == 'POST':
         user.username = request.form["username"]
         user.email = request.form["email"]
@@ -60,21 +55,25 @@ def register():
         if user.check_unique():
             user.insert_into_db()
             user.check_validity()
-            return url_for("home")
+            session['user_id'] = user.user_id
+            return url_for("logged_home", name=user.username)
         else:
             return "Username or email taken", 403
 
     else:
         return render_template('login.html', isLogin=False)
 
+
 @app.route('/logout')
 def logout():
-    user = user_class.User()
+    session.pop("user_id", None)
     return redirect(url_for("home"))
-    
+
+
 @app.route('/about')
 def aboutPage():
     return render_template('about.html')
+
 
 if __name__ == '__main__':
     app.run(debug=True)

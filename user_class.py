@@ -12,19 +12,33 @@ class User():
         conn.row_factory = sqlite3.Row
         with conn:
             cursor = conn.cursor()
-            cursor.execute(F'''SELECT user_id FROM users WHERE username = :username AND password= :password OR email = :email AND password= :password
+            cursor.execute('''SELECT user_id FROM users WHERE username = :username AND password= :password OR email = :email AND password= :password
             ''', {"username": self.username, "password": self.password, "email": self.email})
             user_id = cursor.fetchone()
             if user_id:
                 user_id = dict(user_id)["user_id"]
             self.user_id = user_id
 
+    def get_user_by_id(self):
+        conn = sqlite3.connect('database.db')
+        conn.row_factory = sqlite3.Row
+        with conn:
+            cursor = conn.cursor()
+            cursor.execute('''SELECT username, email, password FROM users WHERE user_id = :user_id''', {"user_id": self.user_id})
+            fetched_data = cursor.fetchone()
+            if fetched_data:
+                fetched_data = dict(fetched_data)
+                self.username = fetched_data["username"]
+                self.email = fetched_data["email"]
+                self.password = fetched_data["password"]
+
+
     def check_unique(self):
         conn = sqlite3.connect('database.db')
         conn.row_factory = sqlite3.Row
         with conn:
             cursor = conn.cursor()
-            cursor.execute(f'''SELECT user_id FROM users WHERE username = :username OR email= :email''',
+            cursor.execute('''SELECT user_id FROM users WHERE username = :username OR email= :email''',
             {"username":self.username, "email": self.email})
             user_ids = cursor.fetchone()
             if user_ids:
@@ -37,6 +51,5 @@ class User():
         conn.row_factory = sqlite3.Row
         with conn:
             cursor = conn.cursor()
-            print(self.username, self.email, self.password)
             cursor.execute(F'''INSERT INTO users (username, password, email) VALUES (:username, :password, :email)
             ''', {"username": self.username, "password": self.password, "email": self.email})

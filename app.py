@@ -21,7 +21,9 @@ def home():
 
 @app.route('/user/<string:name>')
 def logged_home(name):
-    return render_template('index.html')
+    user = user_class.User(user_id=session["user_id"])
+    user.get_user_by_id()
+    return render_template('index.html', user=user)
 
 
 @app.route('/login', methods=['GET', 'POST'])

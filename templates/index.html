@@ -16,4 +16,9 @@
 <div class="alert">
   <strong>Please note </strong>this website is still under construction!
 </div>
-{% else %} {% endif %} {% endblock %}
+{% else %}
+<div class="jumbotron">
+  <h1>Thank you for logging in {{ user.username }}, lol</h1>
+  <p>Hopefully there will be stuff here eventually ^^</p>
+</div>
+{% endif %} {% endblock %}

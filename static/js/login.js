@@ -1,4 +1,5 @@
 $(document).ready(function () {
+  isLogin = isLogin == "True";
   let logRegLabel;
   let usernameLabelText;
   let userNamePlaceholder;
@@ -8,7 +9,12 @@ $(document).ready(function () {
   let alertMessage;
   // Sets text to the proper form type
   function logRegUpdate(bol, anim) {
-    $("#emaildiv").toggle(anim);
+    "use strict";
+    if (bol) {
+      $("#emaildiv").hide(anim);
+    } else {
+      $("#emaildiv").show(anim);
+    }
     logRegLabel = bol ? "Login" : "Register";
     usernameLabelText = bol ? "Username or Email" : "Username";
     userNamePlaceholder = bol ? "Username / Email" : "Username";
@@ -33,10 +39,8 @@ $(document).ready(function () {
     $("#button_login").val(`${logRegLabel}`);
     $("#email").prop("disabled", bol);
     $(".alert").html(alertMessage);
+    console.log(usernameLabelText);
   }
-
-  // Assemble page depending on its Type
-  logRegUpdate(isLogin, 0);
 
   // Switch Between Forms
   $(document).on("click", "a.switch", function () {
@@ -56,10 +60,12 @@ $(document).ready(function () {
     "use strict";
     // Fetch all the forms we want to apply custom Bootstrap validation styles to
     var form = document.querySelector(".needs-validation");
+    console.log(form);
     // Do the submit magic
     form.addEventListener(
       "submit",
       function (event) {
+        console.log("This fun right here");
         form.classList.remove("was-validated");
         event.preventDefault();
         if (!form.checkValidity()) {
@@ -85,4 +91,7 @@ $(document).ready(function () {
       false
     );
   })();
+
+  // Assemble page depending on its Type
+  logRegUpdate(isLogin, 0);
 });

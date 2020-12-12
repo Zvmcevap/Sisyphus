@@ -1,8 +1,17 @@
 .navbar {
-  background: #d9e4dd;
+  background: #555555;
   margin-bottom: 50px;
 }
 
 .jumbotron {
   background: #cdc9c3;
+}
+
+.navbar-brand,
+.about-h1 {
+  font-family: "Times New Roman", Times, serif;
+}
+
+.navbar-img {
+  margin-inline-end: 15px;
 }

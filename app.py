@@ -65,9 +65,16 @@ def register():
             return "Username or email taken", 403
 
     else:
-        render_template('login.html', isLogin=False)
-    
+        return render_template('login.html', isLogin=False)
 
+@app.route('/logout')
+def logout():
+    user = user_class.User()
+    return redirect(url_for("home"))
+    
+@app.route('/about')
+def aboutPage():
+    return render_template('about.html')
 
 if __name__ == '__main__':
     app.run(debug=True)

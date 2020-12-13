@@ -1,59 +1,116 @@
-from flask import Flask, redirect, url_for, render_template, request, jsonify
+from flask import Flask, redirect, url_for, render_template, request, jsonify, make_response, session
 import sqlite3
+from os import path
 import secrets
 import user_class
 import json
+from passlib.hash import sha256_crypt
 
 
-app=Flask(__name__)
-user = user_class.User()
+app = Flask(__name__)
+app.secret_key = secrets.token_urlsafe(32)
 
-def make_userList():
-    conn = sqlite3.connect('database.db')
+
+def make_userlist():
+    the_list = []
+    ROOT = path.dirname(path.realpath(__file__))
+    conn = sqlite3.connect(path.join(ROOT, "database.db"))
     conn.row_factory = sqlite3.Row
     with conn:
-        userList = []
         cursor = conn.cursor()
-        cursor.execute('''SELECT * FROM users''')
-        users = cursor.fetchall()
-        for u in users:
-            user = user_class.User(u["user_id"], u["username"], u["password"], u["email"])
-            user.check_unique()
-            userList.append(user)
-        return userList
+        cursor.execute("SELECT * FROM users")
+        query = cursor.fetchall()
+        print(query)
+    for row in query:
+        r = dict(row)
+        usr = user_class.User(r["user_id"], r["username"],
+                              r["password"], r["email"])
+        the_list.append(usr)
+    return the_list
 
 
-
-@app.route('/',methods=['GET','POST'])
+@app.route('/')
 def home():
-        if user.user_id:
-            print("BOOOM")
-            return render_template('index.html')
-        else:
-            return redirect(url_for('login'))
+    if "user_id" in session:
+        user = user_class.User(user_id=session["user_id"])
+        user.get_user_by_id()
+        if user.username == "admin":
+            return redirect(url_for("userlist"))
+        return render_template('index.html' , user=user)
+    else:
+        return render_template('index.html')
+
+
+@app.route('/user/<string:name>')
+def logged_home(name):
+    user = user_class.User(user_id=session["user_id"])
+    user.get_user_by_id()
+    if user.user_id == 51:
+        return redirect(url_for("userlist"))
+
+    else:
+        return render_template('index.html', user=user)
+
+
+
+
+@app.route('/userlist')
+def userlist():
+    users = make_userlist()
+    return render_template("userlist.html", users=users)
 
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    user = user_class.User()
     if request.method == 'POST':
         user.username = request.form["username"]
         user.email = request.form["username"]
-        user.password = request.form["password"]
-        user.check_unique()
-
-        if user.user_id:
-            return redirect(url_for("home"))
+        password_candidate = request.form["password"]
+        user.check_username()
+        if sha256_crypt.verify(password_candidate, user.password):
+            user.get_user_by_id()
+            session['user_id'] = user.user_id
+            return url_for("home")
         else:
-            return jsonify({"error": "Username or Password incorrect"})
-
-        return jsonify({"username" : user.username, "password": user.password})
-
-
+            return 'Invalid user information', 400
 
     else:
-        return render_template('login.html')
+        return render_template('login.html', isLogin=True)
 
-    
+
+@app.route('/register', methods=['POST', 'GET'])
+def register():
+    user = user_class.User()
+    if request.method == 'POST':
+        user.username = request.form["username"]
+        user.email = request.form["email"]
+
+        password_candidate = request.form["password"]
+        user.password = sha256_crypt.hash(password_candidate)
+
+        if user.check_unique():
+            user.insert_into_db()
+            user.check_username()
+            session['user_id'] = user.user_id
+            session['username'] = user.username
+            return url_for("home")
+        else:
+            return "Username or email taken", 403
+
+    else:
+        return render_template('login.html', isLogin=False)
+
+
+@app.route('/logout')
+def logout():
+    session.pop("user_id", None)
+    return redirect(url_for("home"))
+
+
+@app.route('/about')
+def aboutPage():
+    return render_template('about.html')
 
 
 if __name__ == '__main__':

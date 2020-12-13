@@ -1,0 +1,121 @@
+<nav class="navbar navbar-expand-lg navbar-dark" id="navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <img
+        class="navbar-img d-inline-block"
+        src="../static/images/pixil-frame-0.png"
+        width="35"
+        height="35"
+      />SISYPHUS</a
+    >
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-toggle="collapse"
+      data-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="/"
+            >Home <span class="sr-only">(current)</span></a
+          >
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Link</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a
+            class="nav-link dropdown-toggle"
+            href="#"
+            id="navbarDropdown"
+            role="button"
+            data-toggle="dropdown"
+            aria-haspopup="true"
+            aria-expanded="false"
+          >
+            Dropdown
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="#">Action</a>
+            <a class="dropdown-item" href="#">Another action</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="#">Something else here</a>
+          </div>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/about">About</a>
+        </li>
+      </ul>
+      {% if not "user_id" in session %}
+      <ul class="navbar-nav navbar-right">
+        <li class="nav-item">
+          <a class="nav-link" href="/register"
+            ><span class="glyphicon glyphicon-user"></span
+            ><i class="fas fa-user-plus"></i> Register
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/login"
+            ><i class="fas fa-sign-in-alt"> </i> Login</a
+          >
+        </li>
+      </ul>
+      {% else %}
+      <ul class="navbar-nav navbar-right">
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            data-toggle="modal"
+            data-target="#logout-modal"
+            style="cursor: pointer"
+            ><i class="fas fa-sign-out-alt"> </i> Logout</a
+          >
+        </li>
+      </ul>
+      <div class="modal" tabindex="-1" role="dialog" id="logout-modal">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Logout</h5>
+              <button
+                type="button"
+                class="close"
+                data-dismiss="modal"
+                aria-label="Close"
+              >
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <p>Are you <strong>sure</strong> you want to logout?</p>
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                onclick="location.href='/logout'"
+                class="btn btn-danger"
+              >
+                Logout
+              </button>
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-dismiss="modal"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</nav>

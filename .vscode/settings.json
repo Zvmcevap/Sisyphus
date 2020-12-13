@@ -1,3 +1,5 @@
 {
-  "python.pythonPath": "venv/bin/python"
+  "python.pythonPath": "/home/beno/Desktop/Sisyphus/venv/bin/python",
+  "[python]": { "editor.defaultFormatter": null },
+  "python.formatting.provider": "autopep8"
 }

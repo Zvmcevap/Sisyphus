@@ -1,13 +1,24 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Sisyphus</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="../static/css/main.css" />
-</head>
-
-<body>
-
-</body>
-</html>
+{% extends 'base.html' %} {% block body %} {% if 'user_id' not in session %}
+<div class="jumbotron">
+  <h1>WELCOME</h1>
+  <p>
+    To the website I started to assemble around the time the
+    <a href="https://sl.wikipedia.org/wiki/Bri%C5%BEinski_spomeniki"
+      >Freising manuscripts</a
+    >
+    were being written. The purpose of this website is to learn to hate HTML and
+    to miss the Smartninja Coding Challenge by a couple of months (years?). To
+    use the website you will have to either <a href="/login">login here,</a>or
+    <a href="/register">register here. </a>Or click the pretty buttons I set up
+    (MYSELF) in the upper right corner of the screen.
+  </p>
+</div>
+<div class="alert">
+  <strong>Please note </strong>this website is still under construction!
+</div>
+{% else %}
+<div class="jumbotron">
+  <h1>Thank you for logging in {{ user.username }}, lol</h1>
+  <p>Hopefully there will be stuff here eventually ^^</p>
+</div>
+{% endif %} {% endblock %}

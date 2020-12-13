@@ -16,9 +16,4 @@
 <div class="alert">
   <strong>Please note </strong>this website is still under construction!
 </div>
-{% else %}
-<div class="jumbotron">
-  <h1>Thank you for logging in {{ user.username }}, lol</h1>
-  <p>Hopefully there will be stuff here eventually ^^</p>
-</div>
-{% endif %} {% endblock %}
+{% else %} {% include '_tasknav.html' %} {% endif %} {% endblock %}

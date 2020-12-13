@@ -1,4 +1,4 @@
-from flask import Flask, redirect, url_for, render_template, request, jsonify, make_response, session
+from flask import Flask, redirect, url_for, render_template, request, jsonify, make_response, session, flash
 import sqlite3
 from os import path
 import secrets
@@ -33,22 +33,21 @@ def home():
     if "user_id" in session:
         user = user_class.User(user_id=session["user_id"])
         user.get_user_by_id()
-        if user.username == "admin":
-            return redirect(url_for("userlist"))
         return render_template('index.html', user=user)
     else:
         return render_template('index.html')
 
 
+@app.route('/tasks')
+def tasks():
+    return render_template('tasks.html')
+
+
 @app.route('/user/<string:name>')
-def logged_home(name):
+def user_profile(name):
     user = user_class.User(user_id=session["user_id"])
     user.get_user_by_id()
-    if user.user_id == 51:
-        return redirect(url_for("userlist"))
-
-    else:
-        return render_template('index.html', user=user)
+    return render_template('userprofile.html', user=user)
 
 
 @app.route('/userlist')
@@ -57,6 +56,7 @@ def userlist():
     return render_template("userlist.html", users=users)
 
 
+# Login, register, logout
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     user = user_class.User()
@@ -68,6 +68,7 @@ def login():
         if sha256_crypt.verify(password_candidate, user.password):
             user.get_user_by_id()
             session['user_id'] = user.user_id
+            session['username'] = user.username
             return url_for("home")
         else:
             return 'Invalid user information', 400

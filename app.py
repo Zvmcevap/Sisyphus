@@ -20,7 +20,6 @@ def make_userlist():
         cursor = conn.cursor()
         cursor.execute("SELECT * FROM users")
         query = cursor.fetchall()
-        print(query)
     for row in query:
         r = dict(row)
         usr = user_class.User(r["user_id"], r["username"],

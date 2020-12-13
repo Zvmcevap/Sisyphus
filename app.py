@@ -1,5 +1,6 @@
 from flask import Flask, redirect, url_for, render_template, request, jsonify, make_response, session
 import sqlite3
+from os import path
 import secrets
 import user_class
 import json
@@ -8,13 +9,30 @@ import json
 app = Flask(__name__)
 app.secret_key = secrets.token_urlsafe(32)
 
+def make_userlist():
+    the_list = []
+    ROOT = path.dirname(path.realpath(__file__))
+    conn = sqlite3.connect(path.join(ROOT, "database.db"))
+    conn.row_factory = sqlite3.Row
+    with conn:
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM users")
+        query = cursor.fetchall()
+        print(query)
+    for row in query:
+        r = dict(row)
+        usr = user_class.User(r["user_id"], r["username"], r["password"], r["email"])
+        the_list.append(usr)
+    return the_list
+
+
 
 @app.route('/')
 def home():
     if "user_id" in session:
         user = user_class.User(user_id=session["user_id"])
         user.get_user_by_id()
-        return redirect(url_for("logged_home"))
+        return redirect(url_for("logged_home", name=user.username))
     else:
         return render_template('index.html')
 
@@ -23,7 +41,17 @@ def home():
 def logged_home(name):
     user = user_class.User(user_id=session["user_id"])
     user.get_user_by_id()
-    return render_template('index.html', user=user)
+    if user.user_id == 51:
+        return redirect(url_for("userlist"))
+
+    else:
+        return render_template('index.html', user=user)
+
+@app.route('/userlist')
+def userlist():
+    users = make_userlist()
+
+    return render_template("userlist.html", users=users)
 
 
 @app.route('/login', methods=['GET', 'POST'])

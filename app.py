@@ -36,7 +36,7 @@ def home():
         user.get_user_by_id()
         if user.username == "admin":
             return redirect(url_for("userlist"))
-        return render_template('index.html' , user=user)
+        return render_template('index.html', user=user)
     else:
         return render_template('index.html')
 
@@ -50,8 +50,6 @@ def logged_home(name):
 
     else:
         return render_template('index.html', user=user)
-
-
 
 
 @app.route('/userlist')

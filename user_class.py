@@ -52,7 +52,9 @@ class User():
             ''', {"username": self.username, "password": self.password, "email": self.email})
 
 
+
     def get_user_by_id(self):
+        fetched_data = None
         ROOT = path.dirname(path.realpath(__file__))
         conn = sqlite3.connect(path.join(ROOT, "database.db"))
         conn.row_factory = sqlite3.Row

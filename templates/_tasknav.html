@@ -1,18 +1,24 @@
-  <div class="btn-group" id="task-buttons" role="group" aria-label="Basic example">
+<div id="task-btns-whitespace">
+  <div
+    class="btn-group"
+    id="task-buttons"
+    role="group"
+    aria-label="Basic example"
+  >
     <button
       type="button"
       id="add-task-btn"
       class="btn"
       data-toggle="modal"
       data-target="#taskmodal"
-    ><i class="fas fa-plus-circle"></i>
+    >
+      <i class="fas fa-plus-circle"></i>
       New Task
     </button>
     <button type="button" class="btn btn-secondary">Placeholder1</button>
-    <button type="button" class="btn">Placeholder2</button>
+    <button type="button" class="btn">Back to top</button>
   </div>
-
-</nav>
+</div>
 <!-- New Task Modal -->
 <div
   class="modal fade"
@@ -25,7 +31,7 @@
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+        <h5 class="modal-title" id="exampleModalLongTitle">New Task</h5>
         <button
           type="button"
           class="close"
@@ -36,9 +42,186 @@
         </button>
       </div>
       <div class="modal-body">
-        <input type="date" value="2017-06-01" />
-        <input type="date" value="2017-06-01" />
+        <!-- MODAL BODY: PLACE FORM HERE -->
+        <form>
+          <div class="form-group row">
+            <div class="form-group col-sm-7">
+              <label for="task-name">Name</label>
+              <input
+                class="form-control"
+                type="text"
+                id="task-name"
+                placeholder="Name of the task duh"
+                maxlength="20"
+                required
+              />
+            </div>
+            <div class="form-group col-sm-2">
+              <label for="color-icon">Color</label>
+              <input class="form-control" id="color-icon" type="color" />
+            </div>
+          </div>
+          <div class="form-group form-row">
+            <div class="form-group col">
+              <label for="from">From</label>
+              <div class="input-group">
+                <input
+                  class="form-control form-control-sm form-time"
+                  id="from"
+                  type="time"
+                />
+                <input
+                  class="form-control form-control-sm form-date"
+                  id="from"
+                  type="date"
+                />
+              </div>
+            </div>
+            <div class="form-group col">
+              <label for="from">To</label>
+              <div class="input-group">
+                <input
+                  class="form-control form-control-sm form-time"
+                  id="to"
+                  type="time"
+                />
+                <input
+                  class="form-control form-control-sm form-date"
+                  id="to"
+                  type="date"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label
+              for="task-desciption"
+              data-toggle="collapse"
+              data-target="#task-collapse"
+              >Description <small> (clickitty-click)</small></label
+            >
+            <div class="collapse" id="task-collapse">
+              <textarea
+                class="form-control"
+                id="task-desciption"
+                placeholder="An optional description in case you need it..."
+                maxlength="140"
+                required
+              ></textarea>
+            </div>
+          </div>
+          <!-- Repetition options here -->
+          <div class="form-check" id="repete-toggle">
+            <input
+              class="form-check-input mr-2"
+              id="sisy-check"
+              type="checkbox"
+              data-toggle="collapse"
+              data-target="#sisy-options"
+            />
+            <label class="form-check-label" for="sisy-check"
+              >make your chore endless -
+              <small> it's why the stupid name</small></label
+            >
+          </div>
+          <div class="collapse" id="sisy-options">
+            <p id="sisy-desc">
+              Decide when the bolder will roll downhill in the options bellow.
+            </p>
+            <div class="form-group row mb-0">
+              <div class="form-group col repete-group">
+                <!-- WEEKLY OPTIONS HERE -->
+                <h5>Weekly Repetitions</h5>
+                <div class="form-group week">
+                  <div class="form-check">
+                    <input
+                      name="monday"
+                      id="monday"
+                      class="form-check-input"
+                      type="checkbox"
+                    />
+                    <label class="form-check-label" for="monday">
+                      Monday
+                    </label>
+                  </div>
+                  <div class="form-check">
+                    <input
+                      name="tuesday"
+                      id="tuesday"
+                      class="form-check-input"
+                      type="checkbox"
+                    />
+                    <label class="form-check-label" for="tuesday">
+                      Tuesday
+                    </label>
+                  </div>
+                  <div class="form-check">
+                    <input
+                      name="wednesday"
+                      id="wednesday"
+                      class="form-check-input"
+                      type="checkbox"
+                    />
+                    <label class="form-check-label" for="wednesday">
+                      Wednesday
+                    </label>
+                  </div>
+                  <div class="form-check">
+                    <input
+                      name="thursday"
+                      id="thursday"
+                      class="form-check-input"
+                      type="checkbox"
+                    />
+                    <label class="form-check-label" for="thursday">
+                      Thursday
+                    </label>
+                  </div>
+                  <div class="form-check">
+                    <input
+                      name="friday"
+                      id="friday"
+                      class="form-check-input"
+                      type="checkbox"
+                    />
+                    <label class="form-check-label" for="friday">
+                      Friday
+                    </label>
+                  </div>
+                  <div class="form-check">
+                    <input
+                      name="saturday"
+                      id="saturday"
+                      class="form-check-input"
+                      type="checkbox"
+                    />
+                    <label class="form-check-label" for="saturday">
+                      Saturday
+                    </label>
+                  </div>
+                  <div class="form-check">
+                    <input
+                      name="sunday"
+                      id="sunday"
+                      class="form-check-input"
+                      type="checkbox"
+                    />
+                    <label class="form-check-label" for="sunday">
+                      Sunday
+                    </label>
+                  </div>
+                </div>
+              </div>
+              <!-- WEEKLY OPTIONS END HERE -->
+              <div class="form-group col repete-group">
+                <h5>Monthly Repetitions</h5>
+                <div class="d-flex flex-wrap month"></div>
+              </div>
+            </div>
+          </div>
+        </form>
       </div>
+      <!-- MODAL BODY: END FORM HERE -->
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">
           Close
@@ -49,3 +232,4 @@
   </div>
 </div>
 <!-- New Task Modal -->
+<script src="../static/js/newTask.js"></script>

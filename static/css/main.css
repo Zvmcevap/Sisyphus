@@ -1,6 +1,5 @@
 .navbar {
   background: #555555;
-  margin-bottom: 35px;
 }
 
 .jumbotron,
@@ -18,15 +17,6 @@
   border: 2px, solid, white;
 }
 
-.card {
-  margin: auto;
-}
-
-#tasknav {
-  background-color: rgba(0, 0, 0, 0);
-  padding: 0px;
-}
-
 .body-link {
   color: black;
   font-weight: bold;
@@ -37,11 +27,6 @@
 }
 
 #task-buttons {
-  display: flex;
-  position: sticky;
-  top: 2rem;
-  position: sticky;
-  top: 2rem;
   max-width: 25rem;
   margin-left: auto;
   margin-right: auto;
@@ -67,4 +52,50 @@
 
 .tasks-container {
   padding-bottom: 50rem;
+}
+#task-btns-whitespace {
+  display: flex;
+  width: 100%;
+  position: sticky;
+  top: 0rem;
+  padding-top: 2rem;
+  background-color: rgb(255, 255, 255);
+  padding-bottom: 2rem;
+  border-bottom: 1px solid #555555;
+}
+
+#task-name {
+  max-width: 13rem;
+}
+
+.form-time {
+  max-width: 40%;
+}
+
+.form-date {
+  max-width: 60%;
+}
+
+#sisy-desc {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  border-top: 1px solid;
+  border-bottom: 1px solid;
+}
+
+.week {
+  padding-left: 3rem;
+  border-right: 1px solid #555555;
+}
+
+.month {
+}
+
+.repete-group {
+  margin-bottom: 0;
+}
+
+.daysofmonth {
+  margin-left: 0.2rem;
+  margin-right: 0.2rem;
 }

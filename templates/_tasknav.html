@@ -1,18 +1,19 @@
-<nav class="navbar" id="tasknav">
-  <div class="btn-group mx-auto" role="group" aria-label="Basic example">
+  <div class="btn-group" id="task-buttons" role="group" aria-label="Basic example">
     <button
       type="button"
-      class="btn btn-secondary"
+      id="add-task-btn"
+      class="btn"
       data-toggle="modal"
       data-target="#taskmodal"
-    >
+    ><i class="fas fa-plus-circle"></i>
       New Task
     </button>
     <button type="button" class="btn btn-secondary">Placeholder1</button>
-    <button type="button" class="btn btn-secondary">Placeholder2</button>
+    <button type="button" class="btn">Placeholder2</button>
   </div>
+
 </nav>
-<!-- Modal -->
+<!-- New Task Modal -->
 <div
   class="modal fade"
   id="taskmodal"
@@ -47,3 +48,4 @@
     </div>
   </div>
 </div>
+<!-- New Task Modal -->

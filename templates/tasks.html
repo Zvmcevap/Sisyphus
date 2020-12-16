@@ -3,12 +3,21 @@
   <h1>You are a rando!</h1>
   <p>
     To use the website you will have to either
-    <a href="/login">login here,</a>or <a href="/register">register here. </a>Or
-    click the pretty buttons I set up (MYSELF) in the upper right corner of the
-    screen.
+    <a class="body-link" href="/login">login</a>, or
+    <a class="body-link" href="/register">register</a>. Or click the pretty
+    buttons I set up (MYSELF) in the upper right corner of the screen.
   </p>
 </div>
 <div class="alert">
   <strong>Please note </strong>this website is still under construction!
 </div>
-{% else %} {% include '_tasknav.html' %} {% endif %} {% endblock %}
+{% else %} {% include '_tasknav.html' %}
+<div class="tasks-container">
+  <ul>
+    <li>Task uno</li>
+    <li>Task due</li>
+    <li>Task tre</li>
+    <li>Task quatro</li>
+  </ul>
+</div>
+{% endif %} {% endblock %}

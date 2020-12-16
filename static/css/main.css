@@ -15,6 +15,7 @@
 
 .navbar-img {
   margin-inline-end: 15px;
+  border: 2px, solid, white;
 }
 
 .card {
@@ -24,4 +25,46 @@
 #tasknav {
   background-color: rgba(0, 0, 0, 0);
   padding: 0px;
+}
+
+.body-link {
+  color: black;
+  font-weight: bold;
+}
+
+.body-link:hover {
+  color: black;
+}
+
+#task-buttons {
+  display: flex;
+  position: sticky;
+  top: 2rem;
+  position: sticky;
+  top: 2rem;
+  max-width: 25rem;
+  margin-left: auto;
+  margin-right: auto;
+  box-shadow: 0px 4px 10px 2px rgba(0, 0, 0, 0.35);
+  border-radius: 50px;
+}
+
+#task-buttons :last-child {
+  border-radius: 0 50px 50px 0;
+  background-color: #cdc9c3;
+}
+.btn-group :first-child {
+  border-radius: 50px 0 0 50px;
+}
+
+#add-task-btn {
+  background: #d9e4dd;
+}
+
+.fa-plus-circle {
+  background: #d9e4dd;
+}
+
+.tasks-container {
+  padding-bottom: 50rem;
 }

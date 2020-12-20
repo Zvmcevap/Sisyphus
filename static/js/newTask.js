@@ -14,82 +14,116 @@ $(document).ready(function () {
           </div>`
     );
   }
+
   // Setting Date and Time in the form
   class DateTimeClass {
-    constructor(date) {
-      this.date = date;
+    constructor(fromDate, toDate) {
+      this.fromDate = fromDate;
+      this.toDate = toDate;
     }
-    getDateStr() {
-      return this.date.toISOString().slice(0, 10);
-    }
-    getTimeStr() {
-      return this.date.toISOString().slice(11, 16);
-    }
-    addHourTimeStr() {
-      let time = new Date(this.date.getTime() + 3600000);
-      return time.toISOString().slice(11, 16);
-    }
-    addDayDateStr() {
-      let day = new Date(this.date.getTime() + 86400000);
-      return day.toISOString().slice(0, 10);
-    }
-    isSmallerDate(insertedDate) {
-      if (this.date.getTime() <= insertedDate.gettime()) {
-        return false;
+    getFromDateStr(fromBol) {
+      if (fromBol) {
+        return this.fromDate.toISOString().slice(0, 10);
       } else {
-        return true;
+        return this.toDate.toISOString().slice(0, 10);
+      }
+    }
+    getFromTimeStr(fromBol) {
+      if (fromBol) {
+        return this.fromDate.toISOString().slice(11, 16);
+      } else {
+        return this.toDate.toISOString().slice(11, 16);
+      }
+    }
+    addHourToDate(fromBol) {
+      console.log(this.toDate);
+      if (fromBol) {
+        this.toDate = new Date(this.fromDate.getTime() + 3600000);
+      } else {
+        this.fromDate = new Date(this.toDate.getTime() - 3600000);
+      }
+    }
+    addDayToDate(fromBol) {
+      console.log(this.toDate);
+      if (fromBol) {
+        this.toDate = new Date(this.fromDate.getTime() + 86400000);
+      } else {
+        this.fromDate = new Date(this.toDate.getTime() - 86400000);
+      }
+    }
+    compareFrom(fromBol, wholeDay) {
+      if (this.fromDate.getTime() >= this.toDate.getTime()) {
+        if (wholeDay) {
+          this.addDayToDate(fromBol);
+        } else {
+          this.addHourToDate(fromBol);
+        }
       }
     }
   }
 
+  // Function to get DateTime Class from Input
   function fromDateInputtoObj(wantFrom) {
     dateId = wantFrom ? "#from-date" : "#to-date";
     timeId = wantFrom ? "#from-time" : "#to-time";
-    console.log($(timeId).val());
     dateStrs = $(dateId).val().split("-");
     timeStrs = $(timeId).val().split(":");
-    console.log(timeStrs);
 
     return new Date(
       Number(dateStrs[0]),
       Number(dateStrs[1]) - 1,
       Number(dateStrs[2]),
-      Number(timeStrs[0]),
+      Number(timeStrs[0]) + 1,
       Number(timeStrs[1]),
       0,
       0
     );
   }
+  // End of the Function Def
+  let wholeDayCheck = $("#whole-day-check").prop("checked");
 
-  let now = new DateTimeClass(new Date());
-  $("#from-date").attr("value", now.getDateStr());
-  $("#from-time").attr("value", now.getTimeStr());
+  let now = new Date();
+  now.setTime(now.getTime() - now.getTimezoneOffset() * 60 * 1000);
 
-  $("#to-date").attr("value", now.getDateStr());
-  $("#to-time").attr("value", now.addHourTimeStr());
+  const mainDateTimeClass = new DateTimeClass(now, now);
+  mainDateTimeClass.compareFrom(true);
 
-  $("#from-date").change(function () {
-    console.log($("#from-date").val());
+  $("#from-date").attr("value", mainDateTimeClass.getFromDateStr(true));
+  $("#from-time").attr("value", mainDateTimeClass.getFromTimeStr(true));
+
+  $("#to-date").attr("value", mainDateTimeClass.getFromDateStr(false));
+  $("#to-time").attr("value", mainDateTimeClass.getFromTimeStr(false));
+
+  // When the Dates and Times get changed
+  $(".fromDateTime").change(function () {
+    mainDateTimeClass.fromDate = fromDateInputtoObj(true);
+    mainDateTimeClass.compareFrom(true, wholeDayCheck);
+
+    $("#to-date").val(mainDateTimeClass.getFromDateStr(false));
+    $("#to-time").val(mainDateTimeClass.getFromTimeStr(false));
   });
-  let wantFrom = true;
-  fromDate = fromDateInputtoObj(wantFrom);
-  console.log(fromDate.toISOString());
+  $(".toDateTime").change(function () {
+    mainDateTimeClass.toDate = fromDateInputtoObj(false);
+    mainDateTimeClass.compareFrom(false, wholeDayCheck);
 
-  /*
+    $("#from-date").val(mainDateTimeClass.getFromDateStr(true));
+    $("#from-time").val(mainDateTimeClass.getFromTimeStr(true));
+  });
+
   // Using the whole day parameter
   function isWholeDay(bol) {
     if (bol) {
       $("#from-time").val("00:00").prop("disabled", true);
+      mainDateTimeClass.fromDate = fromDateInputtoObj(true);
       $("#to-time").val("00:00").prop("disabled", true);
-      $("#to-date").val(nextDayStr);
+      mainDateTimeClass.toDate = fromDateInputtoObj(false);
+      mainDateTimeClass.compareFrom(true, bol);
+      $("#to-date").val(mainDateTimeClass.getFromDateStr(false));
     } else {
-      $("#from-time").val(nowTimeStr).prop("disabled", false);
-      $("#to-time").val(thenTimeStr).prop("disabled", false);
-      $("#to-date").val(nowDateStr);
+      $("#from-time").prop("disabled", false);
+      $("#to-time").prop("disabled", false);
     }
   }
-*/
-  let wholeDayCheck = $("#whole-day-check").prop("checked");
 
   $("#whole-day-check").click(function () {
     wholeDayCheck = $("#whole-day-check").prop("checked");

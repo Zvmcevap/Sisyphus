@@ -1,4 +1,5 @@
 $(document).ready(function () {
+  // Create the Monthly repetition options
   for (i = 1; i <= 31; i++) {
     $(".month").append(
       ` <div class="d-flex flex-column daysofmonth">
@@ -78,10 +79,9 @@ $(document).ready(function () {
       0,
       0
     );
-  }
-  // End of the Function Def
-  let wholeDayCheck = $("#whole-day-check").prop("checked");
+  } // End of the Function Def
 
+  let wholeDayCheck = $("#whole-day-check").prop("checked");
   let now = new Date();
   now.setTime(now.getTime() - now.getTimezoneOffset() * 60 * 1000);
 
@@ -129,4 +129,25 @@ $(document).ready(function () {
     wholeDayCheck = $("#whole-day-check").prop("checked");
     isWholeDay(wholeDayCheck);
   });
+});
+
+$("#submit-new-task").on("click", function () {
+  if ($("#task-name").val().trim().length != 0) {
+    console.log("ajax");
+    $.ajax({
+      data: $("#new-task-form").serialize(),
+      type: "POST",
+      url: "/newtask",
+
+      error: function () {
+        console.log("Le fail");
+      },
+      success: function (response) {
+        $(".modal").modal("hide");
+        $("#new-task-form").trigger("reset");
+      },
+    });
+  } else {
+    console.log("Task name empty");
+  }
 });

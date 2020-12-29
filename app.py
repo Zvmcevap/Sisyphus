@@ -3,12 +3,20 @@ import sqlite3
 from os import path
 import secrets
 import user_class
+import task_class
 import json
 from passlib.hash import sha256_crypt
 
 
 app = Flask(__name__)
-app.secret_key = secrets.token_urlsafe(32)
+#app.secret_key = secrets.token_urlsafe(32)
+app.secret_key = "Potato"
+
+app.config.update(
+    PERMANENT_SESSION_LIFETIME=120000,
+    SESSION_COOKIE_SAMESITE="Lax",
+    SESSION_COOKIE_SECURE=True
+)
 
 
 def make_userlist():
@@ -56,6 +64,25 @@ def userlist():
     return render_template("userlist.html", users=users)
 
 
+@app.route('/newtask', methods=['POST', 'GET'])
+def newtask():
+    if "user_id" in session:
+        if request.method == 'POST':
+            formdata = request.form
+            task = task_class.Task()
+            task.create_task_from_form(formdata)
+            return redirect(url_for('tasks'))
+        else:
+            return "WHAT?"
+    else:
+        return redirect(url_for("login"))
+
+
+@app.route('/about')
+def aboutPage():
+    return render_template('about.html')
+
+
 # Login, register, logout
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -69,6 +96,7 @@ def login():
             user.get_user_by_id()
             session['user_id'] = user.user_id
             session['username'] = user.username
+            session.permanent = True
             return url_for("home")
         else:
             return 'Invalid user information', 400
@@ -92,6 +120,7 @@ def register():
             user.check_username()
             session['user_id'] = user.user_id
             session['username'] = user.username
+            session.permanent = True
             return url_for("home")
         else:
             return "Username or email taken", 403
@@ -104,11 +133,6 @@ def register():
 def logout():
     session.pop("user_id", None)
     return redirect(url_for("home"))
-
-
-@app.route('/about')
-def aboutPage():
-    return render_template('about.html')
 
 
 if __name__ == '__main__':
